@@ -1,4 +1,4 @@
-package com.example.library.libraryAPI;
+package com.library.libraryAPI;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -17,10 +17,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Logger;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1")
 public class AuthorController {
+
+    private final static Logger logger = Logger.getLogger(AuthorController.class.getName());
 
     private final IAuthorService  authorService;
 
@@ -39,7 +43,11 @@ public class AuthorController {
 
     @PostMapping("/author")
     public ResponseEntity<HttpStatus> createAuthor(@RequestBody AuthorDTO authorDTO){
+        logger.info(" Start method creating a new author");
+
         authorService.createAuthor(authorDTO);
+
+        logger.info(" End method creating a new author");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -59,6 +67,8 @@ public class AuthorController {
     @GetMapping("/authors")
     public ResponseEntity<CustomPageAuthorDTO> listAuthors(Pageable pageable){
 
+        logger.info(" Start method list all authors");
+
         Page<AuthorDTO> page = authorService.listAuthors(pageable);
 
         CustomPageAuthorDTO customPageAuthorDTO = CustomPageAuthorDTO.builder()
@@ -68,6 +78,7 @@ public class AuthorController {
                 .content(page.getContent())
                 .build();
 
+        logger.info(" End method list all authors");
         return ResponseEntity.status(HttpStatus.OK).body(customPageAuthorDTO);
     }
 }

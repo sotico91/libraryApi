@@ -17,10 +17,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Logger;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/library")
 public class BookController {
+
+    private final static Logger logger = Logger.getLogger(BookController.class.getName());
 
     private final IBookService bookService;
 
@@ -39,6 +43,9 @@ public class BookController {
 
     @GetMapping("/book")
     public ResponseEntity<BookDTO> getBook(@RequestParam String isbn){
+
+        logger.info(" Start method get book by ISBN");
+
         return ResponseEntity.status(HttpStatus.OK).body(bookService.getBook(isbn));
     }
 
@@ -59,6 +66,8 @@ public class BookController {
     @GetMapping("/book/listBooks")
     public ResponseEntity<CustomPageBookDTO> listBooks(Pageable pageable){
 
+        logger.info(" Start method list all books");
+
         Page<BookDTO> page = bookService.listBooks(pageable);
 
         CustomPageBookDTO response = CustomPageBookDTO.builder()
@@ -67,6 +76,8 @@ public class BookController {
                 .size(page.getSize())
                 .content(page.getContent())
                 .build();
+
+        logger.info(" End method list all books");
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -88,6 +99,8 @@ public class BookController {
     @GetMapping("/book/author")
     public ResponseEntity<CustomPageBookDTO> getBookByAuthor(@RequestParam Long documentNumber, Pageable pageable){
 
+        logger.info(" Start method get book by author");
+
         Page<BookDTO> page =bookService.getBooksByAuthor(documentNumber,pageable);
         CustomPageBookDTO response = CustomPageBookDTO.builder()
                 .totalElements(page.getTotalElements())
@@ -95,6 +108,8 @@ public class BookController {
                 .size(page.getSize())
                 .content(page.getContent())
                 .build();
+
+        logger.info(" End method get book by author");
 
        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -114,6 +129,9 @@ public class BookController {
 
     @PostMapping("/book")
     public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO){
+
+        logger.info(" Start method creating a new book");
+
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(bookDTO));
     }
 
@@ -132,6 +150,9 @@ public class BookController {
 
     @PutMapping("/book/author")
     public ResponseEntity<BookDTO> updateBook(@RequestBody BookDTO bookDTO, @RequestParam Long documentNumber){
+
+        logger.info(" Start method updating a book");
+
         return ResponseEntity.status(HttpStatus.OK).body(bookService.updateBook(bookDTO, documentNumber));
     }
 }

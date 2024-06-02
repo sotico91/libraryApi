@@ -54,6 +54,7 @@ public class BookServiceImpl implements IBookService {
             logger.info("End findBook method");
             return bookEntity;
         }
+        logger.error(BOOK_NOT_FOUND);
         throw new RuntimeException(BOOK_NOT_FOUND);
     }
 

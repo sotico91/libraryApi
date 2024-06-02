@@ -1,12 +1,32 @@
 package com.library.libraryAPI.model.book.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(schema = "books detail entity")
-public record BookEntity (@jakarta.persistence.Id @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id, String title, String author, String isbn, String publisher, String language, String genre, String format, String status) {
+@Table(name = "books_detail_entity")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class BookEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+    private String isbn;
+    private String publisher;
+    private String language;
+    private String genre;
+    private String format;
+    private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private com.library.libraryAPI.model.author.entity.AuthorEntity authorEntity;
 }

@@ -1,5 +1,7 @@
 package com.library.libraryAPI.service.book.impl;
 
+import com.library.libraryAPI.exceptions.impl.ResourceBadRequestException;
+import com.library.libraryAPI.exceptions.impl.ResourceNotFoundException;
 import com.library.libraryAPI.mapper.book.BookMapper;
 import com.library.libraryAPI.model.book.dto.BookDTO;
 import com.library.libraryAPI.model.book.entity.BookEntity;
@@ -36,7 +38,7 @@ public class BookServiceImpl implements IBookService {
                 logger.info("End getBook method");
                 return bookMapper.getBookEntityToBookDTO(bookEntity);
             }
-        logger.error(BOOK_NOT_FOUND);
+            logger.error(BOOK_NOT_FOUND);
             throw new RuntimeException(BOOK_NOT_FOUND);
     }
 
@@ -51,8 +53,7 @@ public class BookServiceImpl implements IBookService {
             logger.info("End findBook method");
             return bookEntity;
         }
-        logger.error(BOOK_NOT_FOUND);
-        throw new RuntimeException(BOOK_NOT_FOUND);
+        return null;
     }
 
 
@@ -60,6 +61,11 @@ public class BookServiceImpl implements IBookService {
     public BookDTO createBook(BookDTO bookDTO) {
 
         logger.info("Start createBook method {}",bookDTO.getIsbn());
+        if (findBook(bookDTO.getIsbn()) != null) {
+
+            logger.error("Book already exists");
+            throw new ResourceBadRequestException("Book already exists with isbn: " + bookDTO.getIsbn());
+        }
 
         return bookMapper.getBookEntityToBookDTO(bookRepository.save(bookMapper.getBookDtoToEntity(bookDTO)));
     }
@@ -79,6 +85,12 @@ public class BookServiceImpl implements IBookService {
         logger.info("Start updateBook method {}",bookDTO.getIsbn());
 
         BookEntity bookEntityBefore = findBook(bookDTO.getIsbn());
+
+        if (bookEntityBefore == null) {
+
+            logger.error(BOOK_NOT_FOUND);
+            throw new ResourceNotFoundException(BOOK_NOT_FOUND);
+        }
         BookEntity bookEntityAfter = bookMapper.getBookDtoToBookEntityWithAuthor(bookEntityBefore, bookDTO);
 
         logger.info("End updateBook method");

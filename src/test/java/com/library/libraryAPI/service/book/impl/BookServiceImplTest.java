@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -61,16 +60,6 @@ class BookServiceImplTest {
     }
 
     @Test
-    void testFindBook_NotFound() {
-        String isbn = "1234567890";
-
-        when(bookRepository.findBookEntityByIsbn(isbn)).thenReturn(null);
-
-        assertThrows(RuntimeException.class, () -> bookService.findBook(isbn));
-    }
-
-
-    @Test
     void testCreateBook() {
         BookDTO bookDTO = new BookDTO();
         bookDTO.setIsbn("1234567890");
@@ -81,7 +70,6 @@ class BookServiceImplTest {
         bookDTO.setLanguage("language");
         bookDTO.setPublisher("publisher");
         bookDTO.setStatus("status");
-
 
         BookEntity bookEntity = new BookEntity();
         bookEntity.setIsbn("1234567890");

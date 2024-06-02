@@ -9,7 +9,7 @@ public interface IBookService {
     BookDTO getBook(String isbn);
     BookEntity findBook(String isbn);
     BookDTO createBook(BookDTO bookDTO);
-    Page<BookDTO> getBooksByAuthor(Long documentNumber, Pageable pageable);
-    BookDTO updateBook(BookDTO bookDTO, Long documentNumber);
+    Page<BookDTO> getBooksByAuthor(String name, Pageable pageable);
+    BookDTO updateBook(BookDTO bookDTO);
     Page<BookDTO> listBooks(Pageable pageable);
 }

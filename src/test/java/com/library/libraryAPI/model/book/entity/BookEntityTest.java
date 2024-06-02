@@ -1,6 +1,5 @@
 package com.library.libraryAPI.model.book.entity;
 
-import com.library.libraryAPI.model.author.entity.AuthorEntity;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,14 +8,6 @@ class BookEntityTest {
 
     @Test
     void testBookEntity() {
-        AuthorEntity author = AuthorEntity.builder()
-                .Id(1L)
-                .name("Martin")
-                .lastName("Garrison")
-                .numberDocument(1256663399L)
-                .dateOfBirth("12/05/1985")
-                .nationality("British")
-                .build();
 
         BookEntity book = BookEntity.builder()
                 .id(1L)
@@ -27,7 +18,7 @@ class BookEntityTest {
                 .genre("Novel")
                 .format("Hardcover")
                 .status("Available")
-                .authorEntity(author)
+                .authorName("F. Scott Fitzgerald")
                 .build();
 
         assertEquals(1L, book.getId());
@@ -38,7 +29,7 @@ class BookEntityTest {
         assertEquals("Novel", book.getGenre());
         assertEquals("Hardcover", book.getFormat());
         assertEquals("Available", book.getStatus());
-        assertEquals(author, book.getAuthorEntity());
+        assertEquals("F. Scott Fitzgerald", book.getAuthorName());
     }
 
 }

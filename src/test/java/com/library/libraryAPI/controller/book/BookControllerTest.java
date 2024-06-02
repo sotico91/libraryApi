@@ -58,13 +58,13 @@ class BookControllerTest {
 
     @Test
     void testGetBookByAuthor() {
-        Long documentNumber = 123456789L;
+        String name = "pedro perez";
         Pageable pageable = mock(Pageable.class);
         Page<BookDTO> page = new PageImpl<>(Collections.singletonList(new BookDTO()));
 
-        when(bookService.getBooksByAuthor(documentNumber, pageable)).thenReturn(page);
+        when(bookService.getBooksByAuthor(name, pageable)).thenReturn(page);
 
-        ResponseEntity<CustomPageBookDTO> result = bookController.getBookByAuthor(documentNumber, pageable);
+        ResponseEntity<CustomPageBookDTO> result = bookController.getBookByAuthor(name, pageable);
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(page.getContent().size(), Objects.requireNonNull(result.getBody()).getContent().size());
@@ -84,12 +84,13 @@ class BookControllerTest {
 
     @Test
     void testUpdateBook() {
-        Long documentNumber = 123456789L;
+
         BookDTO bookDTO = new BookDTO();
+        bookDTO.setAuthor("Pedro Baez");
 
-        when(bookService.updateBook(bookDTO, documentNumber)).thenReturn(bookDTO);
+        when(bookService.updateBook(bookDTO)).thenReturn(bookDTO);
 
-        ResponseEntity<BookDTO> result = bookController.updateBook(bookDTO, documentNumber);
+        ResponseEntity<BookDTO> result = bookController.updateBook(bookDTO);
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(bookDTO, result.getBody());

@@ -1,6 +1,5 @@
 package com.library.libraryAPI.mapper.book;
 
-import com.library.libraryAPI.model.author.entity.AuthorEntity;
 import com.library.libraryAPI.model.book.dto.BookDTO;
 import com.library.libraryAPI.model.book.entity.BookEntity;
 import org.junit.jupiter.api.Test;
@@ -66,15 +65,6 @@ class BookMapperTest {
 
     @Test
     void testGetBookDtoToBookEntityWithAuthor() {
-        AuthorEntity authorEntity = AuthorEntity.builder()
-                .Id(1L)
-                .name("Martin")
-                .lastName("Garrison")
-                .numberDocument(1256663399L)
-                .dateOfBirth("12/05/1985")
-                .nationality("British")
-                .build();
-
         BookDTO bookDTO = BookDTO.builder()
                 .title("The Great Gatsby")
                 .isbn("9780743273565")
@@ -87,7 +77,7 @@ class BookMapperTest {
 
         BookEntity bookEntity = new BookEntity();
 
-        BookEntity updatedBookEntity = bookMapper.getBookDtoToBookEntityWithAuthor(bookEntity, bookDTO, authorEntity);
+        BookEntity updatedBookEntity = bookMapper.getBookDtoToBookEntityWithAuthor(bookEntity, bookDTO);
 
         assertEquals(bookDTO.getTitle(), updatedBookEntity.getTitle());
         assertEquals(bookDTO.getIsbn(), updatedBookEntity.getIsbn());
@@ -96,19 +86,10 @@ class BookMapperTest {
         assertEquals(bookDTO.getGenre(), updatedBookEntity.getGenre());
         assertEquals(bookDTO.getFormat(), updatedBookEntity.getFormat());
         assertEquals(bookDTO.getStatus(), updatedBookEntity.getStatus());
-        assertEquals(authorEntity, updatedBookEntity.getAuthorEntity());
     }
 
     @Test
     void testGetBookEntityToBookDTOByAuthor() {
-        AuthorEntity authorEntity = AuthorEntity.builder()
-                .Id(1L)
-                .name("Martin")
-                .lastName("Garrison")
-                .numberDocument(1256663399L)
-                .dateOfBirth("12/05/1985")
-                .nationality("British")
-                .build();
 
         BookEntity bookEntity = BookEntity.builder()
                 .id(1L)
@@ -119,10 +100,9 @@ class BookMapperTest {
                 .genre("Novel")
                 .format("Hardcover")
                 .status("Available")
-                .authorEntity(authorEntity)
                 .build();
 
-        BookDTO bookDTO = bookMapper.getBookEntityToBookDTOByAuthor(bookEntity);
+        BookDTO bookDTO = bookMapper.getBookEntityToBookDTO(bookEntity);
 
         assertEquals(bookEntity.getTitle(), bookDTO.getTitle());
         assertEquals(bookEntity.getIsbn(), bookDTO.getIsbn());
@@ -131,7 +111,6 @@ class BookMapperTest {
         assertEquals(bookEntity.getGenre(), bookDTO.getGenre());
         assertEquals(bookEntity.getFormat(), bookDTO.getFormat());
         assertEquals(bookEntity.getStatus(), bookDTO.getStatus());
-        assertEquals(authorEntity.getName() + " " + authorEntity.getLastName(), bookDTO.getAuthor());
     }
 
 }

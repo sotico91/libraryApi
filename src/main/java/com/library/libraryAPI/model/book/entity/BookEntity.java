@@ -20,13 +20,10 @@ public class BookEntity {
 
     private String title;
     private String isbn;
+    private String authorName;
     private String publisher;
     private String language;
     private String genre;
     private String format;
     private String status;
-
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private com.library.libraryAPI.model.author.entity.AuthorEntity authorEntity;
 }

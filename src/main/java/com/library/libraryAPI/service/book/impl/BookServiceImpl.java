@@ -1,11 +1,9 @@
 package com.library.libraryAPI.service.book.impl;
 
 import com.library.libraryAPI.mapper.book.BookMapper;
-import com.library.libraryAPI.model.author.entity.AuthorEntity;
 import com.library.libraryAPI.model.book.dto.BookDTO;
 import com.library.libraryAPI.model.book.entity.BookEntity;
 import com.library.libraryAPI.repository.book.BookRepository;
-import com.library.libraryAPI.service.author.IAuthorService;
 import com.library.libraryAPI.service.book.IBookService;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -22,8 +20,6 @@ public class BookServiceImpl implements IBookService {
 
     private final BookRepository bookRepository;
 
-    private final IAuthorService authorService;
-
     private final BookMapper bookMapper;
 
     private final static String BOOK_NOT_FOUND = "Book not found";
@@ -38,8 +34,9 @@ public class BookServiceImpl implements IBookService {
             if(bookEntity != null){
 
                 logger.info("End getBook method");
-                return bookMapper.getBookEntityToBookDTOByAuthor(bookEntity);
+                return bookMapper.getBookEntityToBookDTO(bookEntity);
             }
+        logger.error(BOOK_NOT_FOUND);
             throw new RuntimeException(BOOK_NOT_FOUND);
     }
 
@@ -68,31 +65,30 @@ public class BookServiceImpl implements IBookService {
     }
 
     @Override
-    public Page<BookDTO> getBooksByAuthor(Long documentNumber, Pageable pageable) {
+    public Page<BookDTO> getBooksByAuthor(String name, Pageable pageable) {
 
-        logger.info("Start getBooksByAuthor method {}",documentNumber);
+        logger.info("Start getBooksByAuthor method {}",name);
 
-        return bookRepository.findBookEntityByAuthorEntityNumberDocument(documentNumber, pageable)
-                .map(bookMapper::getBookEntityToBookDTOByAuthor);
+        return bookRepository.findBookByAuthorName(name, pageable)
+                .map(bookMapper::getBookEntityToBookDTO);
     }
 
     @Override
-    public BookDTO updateBook(BookDTO bookDTO, Long documentNumber) {
+    public BookDTO updateBook(BookDTO bookDTO) {
 
         logger.info("Start updateBook method {}",bookDTO.getIsbn());
 
-        AuthorEntity authorEntity = authorService.findAuthor(documentNumber);
         BookEntity bookEntityBefore = findBook(bookDTO.getIsbn());
-        BookEntity bookEntityAfter = bookMapper.getBookDtoToBookEntityWithAuthor(bookEntityBefore, bookDTO, authorEntity);
+        BookEntity bookEntityAfter = bookMapper.getBookDtoToBookEntityWithAuthor(bookEntityBefore, bookDTO);
 
         logger.info("End updateBook method");
-        return bookMapper.getBookEntityToBookDTOByAuthor(bookRepository.saveAndFlush(bookEntityAfter));
+        return bookMapper.getBookEntityToBookDTO(bookRepository.saveAndFlush(bookEntityAfter));
     }
 
     @Override
     public Page<BookDTO> listBooks(Pageable pageable) {
 
             logger.info("Start listBooks method");
-            return bookRepository.findAll(pageable).map(bookMapper::getBookEntityToBookDTOByAuthor);
+            return bookRepository.findAll(pageable).map(bookMapper::getBookEntityToBookDTO);
     }
 }

@@ -97,11 +97,11 @@ public class BookController {
     })
 
     @GetMapping("/book/author")
-    public ResponseEntity<CustomPageBookDTO> getBookByAuthor(@RequestParam Long documentNumber, Pageable pageable){
+    public ResponseEntity<CustomPageBookDTO> getBookByAuthor(@RequestParam String name, Pageable pageable){
 
         logger.info(" Start method get book by author");
 
-        Page<BookDTO> page =bookService.getBooksByAuthor(documentNumber,pageable);
+        Page<BookDTO> page =bookService.getBooksByAuthor(name,pageable);
         CustomPageBookDTO response = CustomPageBookDTO.builder()
                 .totalElements(page.getTotalElements())
                 .totalPages(page.getTotalPages())
@@ -148,11 +148,11 @@ public class BookController {
                             schema = @Schema(implementation = MessageBadRequestDTO.class))})
     })
 
-    @PutMapping("/book/author")
-    public ResponseEntity<BookDTO> updateBook(@RequestBody BookDTO bookDTO, @RequestParam Long documentNumber){
+    @PutMapping("/book")
+    public ResponseEntity<BookDTO> updateBook(@RequestBody BookDTO bookDTO){
 
         logger.info(" Start method updating a book");
 
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.updateBook(bookDTO, documentNumber));
+        return ResponseEntity.status(HttpStatus.OK).body(bookService.updateBook(bookDTO));
     }
 }

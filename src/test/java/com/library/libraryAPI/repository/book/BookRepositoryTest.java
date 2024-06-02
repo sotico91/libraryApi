@@ -38,7 +38,7 @@ class BookRepositoryTest {
 
     @Test
     void testFindBookEntityByAuthorEntityNumberDocument() {
-        Page<BookEntity> books = bookRepository.findBookEntityByAuthorEntityNumberDocument(1256663399L, PageRequest.of(0, 10));
+        Page<BookEntity> books = bookRepository.findBookByAuthorName("Gabriel garcia Marquez", PageRequest.of(0, 10));
         assertNotNull(books);
     }
 

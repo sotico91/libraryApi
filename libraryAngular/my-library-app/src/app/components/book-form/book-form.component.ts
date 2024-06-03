@@ -23,6 +23,7 @@ export class BookFormComponent implements OnInit {
     status: ''
   };
   isEdit = false;
+  private baseUrl = 'https://libraryapp.fly.dev/api/v1/library/book';
 
   constructor(
     private http: HttpClient,
@@ -35,7 +36,7 @@ export class BookFormComponent implements OnInit {
     if (isbn) {
       this.isEdit = true;
       let params = new HttpParams().set('isbn', isbn);
-      this.http.get<any>('https://libraryapp.fly.dev/api/v1/library/book', { params })
+      this.http.get<any>(this.baseUrl, { params })
         .subscribe(data => {
           this.book = data;
         });
@@ -45,13 +46,13 @@ export class BookFormComponent implements OnInit {
   onSubmit(): void {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     if (this.isEdit) {
-      this.http.put('https://libraryapp.fly.dev/api/v1/library/book', this.book, { headers })
+      this.http.put(this.baseUrl, this.book, { headers })
         .subscribe(response => {
           console.log('Book updated:', response);
           this.router.navigate(['/']);
         });
     } else {
-      this.http.post('https://libraryapp.fly.dev/api/v1/library/book', this.book, { headers })
+      this.http.post(this.baseUrl, this.book, { headers })
         .subscribe(response => {
           console.log('Book created:', response);
           this.router.navigate(['/']);

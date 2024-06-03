@@ -13,13 +13,14 @@ import { RouterModule } from '@angular/router';
 })
 export class BookDetailComponent implements OnInit {
   book: any;
+  private baseUrl = 'https://libraryapp.fly.dev/api/v1/library/book';
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit(): void {
     const isbn = this.route.snapshot.paramMap.get('isbn');
     let params = new HttpParams().set('isbn', isbn!);
-    this.http.get<any>('https://libraryapp.fly.dev/api/v1/library/book', { params })
+    this.http.get<any>(this.baseUrl, { params })
       .subscribe(data => {
         this.book = data;
       });

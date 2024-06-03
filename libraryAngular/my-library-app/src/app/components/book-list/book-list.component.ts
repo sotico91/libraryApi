@@ -17,6 +17,7 @@ export class BookListComponent implements OnInit {
   totalPages: number = 0;
   currentPage: number = 0;
   size = 4;
+  private baseUrl = 'https://libraryapp.fly.dev/api/v1/library/book';
 
   constructor(private http: HttpClient) { }
 
@@ -26,7 +27,7 @@ export class BookListComponent implements OnInit {
 
   loadBooks(): void {
     let params = new HttpParams().set('page', this.currentPage.toString()).set('size', this.size.toString());
-    this.http.get<any>('https://libraryapp.fly.dev/api/v1/library/book/listBooks', { params })
+    this.http.get<any>(this.baseUrl+'/listBooks', { params })
       .subscribe(data => {
         this.books = data.content;
         this.totalElements = data.totalElements;
@@ -38,7 +39,7 @@ export class BookListComponent implements OnInit {
 
   searchBooks(): void {
     let params = new HttpParams().set('page', '0').set('size', this.size.toString()).set('searchTerm', this.searchTerm);
-    this.http.get<any>('https://libraryapp.fly.dev/api/v1/library/book/listBooks', { params })
+    this.http.get<any>(this.baseUrl+'/listBooks', { params })
       .subscribe(data => {
         this.books = data.content;
         this.totalElements = data.totalElements;

@@ -1,0 +1,15 @@
+<div class="container mt-4">
+  <div *ngIf="book">
+    <h2 class="mb-4">{{ book.title }}</h2>
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Author:</strong> {{ book.author }}</li>
+      <li class="list-group-item"><strong>ISBN:</strong> {{ book.isbn }}</li>
+      <li class="list-group-item"><strong>Publisher:</strong> {{ book.publisher }}</li>
+      <li class="list-group-item"><strong>Language:</strong> {{ book.language }}</li>
+      <li class="list-group-item"><strong>Genre:</strong> {{ book.genre }}</li>
+      <li class="list-group-item"><strong>Format:</strong> {{ book.format }}</li>
+      <li class="list-group-item"><strong>Status:</strong> {{ book.status }}</li>
+    </ul>
+    <a [routerLink]="['/edit-book', book.isbn]" class="btn btn-primary mt-3">Edit</a>
+  </div>
+</div>

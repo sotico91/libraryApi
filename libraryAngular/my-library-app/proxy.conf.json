@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://libraryapp.fly.dev",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

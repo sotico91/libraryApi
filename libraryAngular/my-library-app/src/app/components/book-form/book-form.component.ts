@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpClientModule, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-book-form',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, HttpClientModule],
-  templateUrl: './book-form.component.html',
-  styleUrls: ['./book-form.component.css']
+    selector: 'app-book-form',
+    imports: [FormsModule, RouterModule, HttpClientModule],
+    templateUrl: './book-form.component.html',
+    styleUrls: ['./book-form.component.css']
 })
 export class BookFormComponent implements OnInit {
   book = {

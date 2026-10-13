@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-book-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule],
-  templateUrl: './book-list.component.html',
-  styleUrls: ['./book-list.component.css']
+    selector: 'app-book-list',
+    imports: [RouterModule, HttpClientModule],
+    templateUrl: './book-list.component.html',
+    styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit {
   searchTerm: string = '';

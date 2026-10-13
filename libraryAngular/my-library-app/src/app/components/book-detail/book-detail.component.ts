@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-book-detail',
-  standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule],
-  templateUrl: './book-detail.component.html',
-  styleUrls: ['./book-detail.component.css']
+    selector: 'app-book-detail',
+    imports: [RouterModule, HttpClientModule],
+    templateUrl: './book-detail.component.html',
+    styleUrls: ['./book-detail.component.css']
 })
 export class BookDetailComponent implements OnInit {
   book: any;

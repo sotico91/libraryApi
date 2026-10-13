@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, CommonModule,RouterModule],
-  template: `
+    selector: 'app-root',
+    imports: [RouterOutlet, RouterModule],
+    template: `
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Library App</a>
@@ -25,7 +24,7 @@ import { RouterModule } from '@angular/router';
   </nav>
   <router-outlet></router-outlet>
 `,
-styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'my-library-app';

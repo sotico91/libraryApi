@@ -27,19 +27,21 @@
         </thead>
         <!-- Contenido de la tabla -->
         <tbody>
-          <tr *ngFor="let book of filteredBooks">
-            <td>{{ book.title }}</td>
-            <td>{{ book.author }}</td>
-            <td>{{ book.isbn }}</td>
-            <td>{{ book.publisher }}</td>
-            <td>{{ book.language }}</td>
-            <td>{{ book.genre }}</td>
-            <td>{{ book.format }}</td>
-            <td>{{ book.status }}</td>
-            <td>
-              <a [routerLink]="['/book', book.isbn]" class="btn btn-info btn-sm">Details</a>
-            </td>
-          </tr>
+          @for (book of filteredBooks; track book) {
+            <tr>
+              <td>{{ book.title }}</td>
+              <td>{{ book.author }}</td>
+              <td>{{ book.isbn }}</td>
+              <td>{{ book.publisher }}</td>
+              <td>{{ book.language }}</td>
+              <td>{{ book.genre }}</td>
+              <td>{{ book.format }}</td>
+              <td>{{ book.status }}</td>
+              <td>
+                <a [routerLink]="['/book', book.isbn]" class="btn btn-info btn-sm">Details</a>
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
       <!-- Botones de paginación -->

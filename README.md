@@ -1,6 +1,39 @@
 # libraryApi
  API to library management
 
+## Configuration
+
+The API reads the MySQL connection from environment variables:
+
+| Variable | Example |
+|---|---|
+| `DB_URL` | `jdbc:mysql://localhost:3306/library` |
+| `DB_USERNAME` | `library_user` |
+| `DB_PASSWORD` | `your-password` |
+
+Run locally:
+
+```bash
+export DB_URL='jdbc:mysql://localhost:3306/library'
+export DB_USERNAME='library_user'
+export DB_PASSWORD='your-password'
+./mvnw spring-boot:run
+```
+
+On Fly.io, set them as secrets:
+
+```bash
+fly secrets set -a libraryapp DB_URL='jdbc:mysql://<host>:3306/<database>' DB_USERNAME='<user>' DB_PASSWORD='<password>'
+```
+
+## Tests
+
+```bash
+./mvnw test
+```
+
+Tests don't need the variables above: `BookRepositoryTest` runs against an in-memory H2 database.
+
 <h1 align="center">Hi 👋, I'm Edgar David Velasco</h1>
 <h3 align="center">A passionate backend developer from colombian</h3>
 

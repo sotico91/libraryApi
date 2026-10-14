@@ -4,8 +4,13 @@ import com.library.libraryAPI.exceptions.impl.ResourceBadRequestException;
 import com.library.libraryAPI.exceptions.impl.ResourceNotFoundException;
 import com.library.libraryAPI.model.generalMessage.MessageDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.TypeMismatchException;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Objects;
 
@@ -51,6 +56,48 @@ class GlobalControllerExceptionHandlerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(HttpStatus.BAD_REQUEST.value(), Objects.requireNonNull(responseEntity.getBody()).getCode());
         assertEquals("Bad request", responseEntity.getBody().getMessage());
+    }
+
+    @Test
+    void testHandleNoResourceFoundException() {
+
+        NoResourceFoundException exception = new NoResourceFoundException(HttpMethod.GET, "/no-existe");
+
+        ResponseEntity<MessageDTO> responseEntity = exceptionHandler.handleException(exception);
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.value(), Objects.requireNonNull(responseEntity.getBody()).getCode());
+        assertEquals(HttpStatus.NOT_FOUND.getReasonPhrase(), responseEntity.getBody().getMessage());
+    }
+
+    @Test
+    void testHandleMissingParameterException() {
+
+        MissingServletRequestParameterException exception = new MissingServletRequestParameterException("isbn", "String");
+
+        ResponseEntity<MessageDTO> responseEntity = exceptionHandler.handleException(exception);
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void testHandleMethodNotSupportedException() {
+
+        HttpRequestMethodNotSupportedException exception = new HttpRequestMethodNotSupportedException("DELETE");
+
+        ResponseEntity<MessageDTO> responseEntity = exceptionHandler.handleException(exception);
+
+        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void testHandleTypeMismatchException() {
+
+        TypeMismatchException exception = new TypeMismatchException("abc", Integer.class);
+
+        ResponseEntity<MessageDTO> responseEntity = exceptionHandler.handleException(exception);
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
 }

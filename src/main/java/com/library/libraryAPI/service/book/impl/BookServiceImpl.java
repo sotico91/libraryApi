@@ -39,7 +39,7 @@ public class BookServiceImpl implements IBookService {
                 return bookMapper.getBookEntityToBookDTO(bookEntity);
             }
             logger.error(BOOK_NOT_FOUND);
-            throw new RuntimeException(BOOK_NOT_FOUND);
+            throw new ResourceNotFoundException(BOOK_NOT_FOUND);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.library.libraryAPI.service.book.impl;
 
+import com.library.libraryAPI.exceptions.impl.ResourceNotFoundException;
 import com.library.libraryAPI.mapper.book.BookMapper;
 import com.library.libraryAPI.model.book.dto.BookDTO;
 import com.library.libraryAPI.model.book.entity.BookEntity;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -45,6 +47,15 @@ class BookServiceImplTest {
         BookDTO result = bookService.getBook(isbn);
 
         assertEquals(bookDTO, result);
+    }
+
+    @Test
+    void testGetBookNotFound() {
+        String isbn = "0000000000";
+
+        when(bookRepository.findBookEntityByIsbn(isbn)).thenReturn(null);
+
+        assertThrows(ResourceNotFoundException.class, () -> bookService.getBook(isbn));
     }
 
     @Test

@@ -4,11 +4,13 @@ FROM maven:3.9-eclipse-temurin-17 AS build
 # Establecer un directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos de tu proyecto al directorio de trabajo
-COPY . /app
+# Descargar las dependencias primero: esta capa queda en caché mientras no cambie el pom.xml
+COPY pom.xml /app/
+RUN mvn -B -q dependency:go-offline
 
-# Ejecutar Maven para construir el proyecto
-RUN mvn clean package -DskipTests
+# Copiar el código fuente y construir el proyecto
+COPY src /app/src
+RUN mvn -B -q package -DskipTests
 
 # Crear una nueva imagen basada en OpenJDK 17 para ejecutar la aplicación
 FROM eclipse-temurin:17-jre

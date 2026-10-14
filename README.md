@@ -27,6 +27,12 @@ export DB_PASSWORD='your-password'
 
 Render sets `PORT` and the app listens on it (defaults to `8080` locally). The free plan sleeps after inactivity, so the first request can take up to a minute.
 
+## API documentation
+
+- Swagger UI: `/swagger-ui/index.html` (the root `/` redirects here)
+- Scalar: `/scalar`
+- OpenAPI JSON: `/v3/api-docs`
+
 ## Tests
 
 ```bash

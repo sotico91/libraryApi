@@ -20,11 +20,12 @@ export DB_PASSWORD='your-password'
 ./mvnw spring-boot:run
 ```
 
-On Fly.io, set them as secrets:
+## Deploy on Render
 
-```bash
-fly secrets set -a libraryapp DB_URL='jdbc:mysql://<host>:3306/<database>' DB_USERNAME='<user>' DB_PASSWORD='<password>'
-```
+1. Create a **Web Service** from this repository (runtime: Docker, plan: Free).
+2. Add `DB_URL`, `DB_USERNAME` and `DB_PASSWORD` under **Environment**.
+
+Render sets `PORT` and the app listens on it (defaults to `8080` locally). The free plan sleeps after inactivity, so the first request can take up to a minute.
 
 ## Tests
 

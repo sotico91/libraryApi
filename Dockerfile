@@ -19,5 +19,8 @@ EXPOSE 8080
 # Copiar el archivo JAR construido desde la etapa anterior
 COPY --from=build /app/target/libraryAPI-0.0.1-SNAPSHOT.jar /app/libraryAPI-0.0.1-SNAPSHOT.jar
 
+# Limitar la memoria para el plan gratuito de Render (512 MB)
+ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=60 -XX:+UseSerialGC -Xss512k -XX:TieredStopAtLevel=1"
+
 # Establecer el punto de entrada para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "/app/libraryAPI-0.0.1-SNAPSHOT.jar"]
